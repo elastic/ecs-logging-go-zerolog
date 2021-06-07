@@ -26,7 +26,10 @@ import (
 	"go.elastic.co/ecszerolog/internal"
 )
 
-const ecsVersion = "1.6.0"
+const (
+	ecsVersion = "1.6.0"
+	originKey  = "log.origin"
+)
 
 // Option indicates optional configuration that can be used when creating the logger.
 type Option func(l zerolog.Logger) zerolog.Logger
@@ -44,7 +47,7 @@ var origin zerolog.HookFunc = func(e *zerolog.Event, _ zerolog.Level, _ string) 
 	if !ok {
 		return
 	}
-	e.Dict("log.origin", zerolog.Dict().
+	e.Dict(originKey, zerolog.Dict().
 		Str("file.name", file).
 		Int("file.line", line),
 	)

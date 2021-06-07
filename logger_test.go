@@ -24,6 +24,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/require"
 
@@ -39,6 +40,16 @@ func (o *testOut) Write(p []byte) (int, error) {
 }
 
 func (o *testOut) validate(t *testing.T, keys ...string) {
+	// Fields `log.origin.file.line` and `log.origin.file.name` are logged as
+	// a map under key log.origin. By using the zap jsonEncoder this cannot
+	// be changed. Remove the nested and add a dotted version of the fields
+	if caller, ok := o.m[originKey].(map[string]interface{}); ok {
+		for name, val := range caller {
+			o.m[fmt.Sprintf("%s.%s", originKey, name)] = val
+			delete(o.m, name)
+		}
+	}
+
 	for _, s := range keys {
 		require.Contains(t, o.m, s)
 	}
@@ -79,23 +90,38 @@ func (o *testOut) validate(t *testing.T, keys ...string) {
 	}
 }
 
-func (o *testOut) reset() {
-	o.m = make(map[string]interface{})
-}
-
 func TestNew(t *testing.T) {
 	to := &testOut{}
-
 	logger := New(to, Timestamp())
+
 	logger.Print("hello world")
 	to.validate(t)
-	to.reset()
+}
 
-	opt := Level(zerolog.InfoLevel)
-	logger = opt(logger)
+func TestLoggerLevel(t *testing.T) {
+	to := &testOut{}
+	logger := New(to, Timestamp(), Level(zerolog.InfoLevel))
+
 	if logger.GetLevel() != zerolog.InfoLevel {
 		t.Errorf("Expected InfoLevel, got %v", logger.GetLevel())
 	}
 	logger.Error().Err(fmt.Errorf("oh no")).Msg("an error")
 	to.validate(t, "error.message")
+}
+
+func TestLoggerErrorStack(t *testing.T) {
+	to := &testOut{}
+	logger := New(to, Timestamp(), ErrorStack())
+
+	err := errors.New("something bad happened")
+	logger.Error().Err(err).Msg("An error has occured")
+	to.validate(t, "error.message", "error.stack_trace")
+}
+
+func TestLoggerOrigin(t *testing.T) {
+	to := &testOut{}
+	logger := New(to, Timestamp(), Origin())
+
+	logger.Info().Msg("hello world")
+	to.validate(t, "log.origin.file.name", "log.origin.file.line")
 }

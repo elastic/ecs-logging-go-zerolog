@@ -48,14 +48,3 @@ func ExampleLoggerError() {
 	// Output:
 	// {"log.level":"error","ecs.version":"1.6.0","error.message":"something bad happened","message":"An error has occured"}
 }
-
-// FIXME: Needs discussion on stack_trace, may not want to include as an example.
-func exampleLoggerErrorStack() {
-	logger := ecszerolog.New(os.Stdout, ecszerolog.ErrorStack())
-	log.Logger = logger
-
-	err := errors.New("something bad happened")
-	log.Error().Err(err).Msg("An error has occured")
-	// Output:
-	//
-}
