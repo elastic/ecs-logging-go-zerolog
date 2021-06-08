@@ -31,7 +31,7 @@ const (
 	originKey  = "log.origin"
 )
 
-// Option indicates optional configuration that can be used when creating the logger.
+// Option indicates optional configuration that can be used when creating a logger.
 type Option func(l zerolog.Logger) zerolog.Logger
 
 // Level will set the minimum accepted level by the logger.
