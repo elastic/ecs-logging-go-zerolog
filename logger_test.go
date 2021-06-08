@@ -92,7 +92,7 @@ func (o *testOut) validate(t *testing.T, keys ...string) {
 
 func TestNew(t *testing.T) {
 	to := &testOut{}
-	logger := New(to, Timestamp())
+	logger := New(to)
 
 	logger.Print("hello world")
 	to.validate(t)
@@ -100,7 +100,7 @@ func TestNew(t *testing.T) {
 
 func TestLoggerLevel(t *testing.T) {
 	to := &testOut{}
-	logger := New(to, Timestamp(), Level(zerolog.InfoLevel))
+	logger := New(to, Level(zerolog.InfoLevel))
 
 	if logger.GetLevel() != zerolog.InfoLevel {
 		t.Errorf("Expected InfoLevel, got %v", logger.GetLevel())
@@ -111,7 +111,7 @@ func TestLoggerLevel(t *testing.T) {
 
 func TestLoggerErrorStack(t *testing.T) {
 	to := &testOut{}
-	logger := New(to, Timestamp(), ErrorStack())
+	logger := New(to, ErrorStack())
 
 	err := errors.New("something bad happened")
 	logger.Error().Err(err).Msg("An error has occured")
@@ -120,7 +120,7 @@ func TestLoggerErrorStack(t *testing.T) {
 
 func TestLoggerOrigin(t *testing.T) {
 	to := &testOut{}
-	logger := New(to, Timestamp(), Origin())
+	logger := New(to, Origin())
 
 	logger.Info().Msg("hello world")
 	to.validate(t, "log.origin.file.name", "log.origin.file.line")

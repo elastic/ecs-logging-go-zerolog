@@ -60,13 +60,6 @@ func Origin() Option {
 	}
 }
 
-// Timestamp is an option to add timestamps to all entries.
-func Timestamp() Option {
-	return func(l zerolog.Logger) zerolog.Logger {
-		return l.With().Timestamp().Logger()
-	}
-}
-
 // ErrorStack enables stack_trace output for supported errors.
 //
 // currently supports: github.com/pkg/errors
@@ -77,6 +70,8 @@ func ErrorStack() Option {
 }
 
 // New will configure zerolog global options and return an ECS compliant logger.
+//
+// All entries will have @timestamp and ecs.version attributes automatically added.
 func New(w io.Writer, options ...Option) zerolog.Logger {
 	zerolog.MessageFieldName = "message"
 	zerolog.ErrorFieldName = "error.message"
@@ -88,7 +83,7 @@ func New(w io.Writer, options ...Option) zerolog.Logger {
 	zerolog.LevelFieldName = "log.level"
 	zerolog.CallerSkipFrameCount = 4
 
-	l := zerolog.New(w).With().Str("ecs.version", ecsVersion).Logger()
+	l := zerolog.New(w).With().Timestamp().Str("ecs.version", ecsVersion).Logger()
 	for _, option := range options {
 		l = option(l)
 	}

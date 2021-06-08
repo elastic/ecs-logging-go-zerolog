@@ -29,7 +29,7 @@ import (
 )
 
 func ExampleLogger() {
-	logger := ecszerolog.New(os.Stdout, ecszerolog.Timestamp())
+	logger := ecszerolog.New(os.Stdout)
 	log.Logger = logger
 
 	zerolog.TimestampFunc = func() time.Time { return time.Unix(0, 0).UTC() } // set time on entry to a known value
@@ -43,8 +43,10 @@ func ExampleLoggerError() {
 	logger := ecszerolog.New(os.Stdout)
 	log.Logger = logger
 
+	zerolog.TimestampFunc = func() time.Time { return time.Unix(0, 0).UTC() } // set time on entry to a known value
+
 	err := errors.New("something bad happened")
 	log.Error().Err(err).Msg("An error has occured")
 	// Output:
-	// {"log.level":"error","ecs.version":"1.6.0","error.message":"something bad happened","message":"An error has occured"}
+	// {"log.level":"error","ecs.version":"1.6.0","error.message":"something bad happened","@timestamp":"1970-01-01T00:00:00Z","message":"An error has occured"}
 }
