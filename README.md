@@ -2,25 +2,9 @@
 
 Use this library for automatically adding a minimal set of ECS fields to your logs, when using [zerolog](https://github.com/rs/zerolog).
 
-## Usage
+## Documentation
 
-```go
-package main
-
-import (
-	"os"
-
-	"go.elastic.co/ecszerolog"
-	"github.com/rs/zerolog/log"
-)
-
-func main() {
-	logger := ecszerolog.New(os.Stdout)
-	log.Logger = logger
-
-	log.Info().Msg("Hello, World!")
-}
-```
+Ready to get started? Documentation is at [elastic.co](https://www.elastic.co/guide/en/ecs-logging/go-zerolog/current/index.html).
 
 ## Test
 
