@@ -8,7 +8,7 @@ mapped_pages:
 
 ECS loggers are formatter/encoder plugins for your favorite logging libraries. They make it easy to format your logs into ECS-compatible JSON.
 
-The encoder logs in JSON format and handles the logging of error fields in [ECS error format](ecs://docs/reference/ecs-error.md).
+The encoder logs in JSON format and handles the logging of error fields in [ECS error format](ecs://reference/ecs-error.md).
 
 By default, the following fields are added:
 
@@ -22,7 +22,7 @@ By default, the following fields are added:
 ```
 
 ::::{tip}
-Want to learn more about ECS, ECS logging, and other available language plugins? See the [ECS logging guide](ecs-logging://docs/reference/intro.md).
+Want to learn more about ECS, ECS logging, and other available language plugins? See the [ECS logging guide](ecs-logging://reference/intro.md).
 ::::
 
 
