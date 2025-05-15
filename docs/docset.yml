@@ -1,4 +1,6 @@
 project: 'ECS Logging Go (Zerolog)'
+products:
+  - id: ecs-logging
 cross_links:
   - beats
   - ecs
