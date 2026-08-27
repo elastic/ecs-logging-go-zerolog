@@ -2,6 +2,12 @@
 mapped_pages:
   - https://www.elastic.co/guide/en/ecs-logging/go-zerolog/current/setup.html
 navigation_title: Get started
+applies_to:
+  stack: ga
+  serverless: ga
+products:
+  - id: ecs-logging
+  - id: elastic-stack
 ---
 
 # Get started with ECS Logging Go (Zerolog) [setup]
@@ -50,6 +56,11 @@ The example above produces the following log output:
 
 
 ## Step 3: Configure Filebeat [setup-step-3]
+
+```{applies_to}
+stack: ga
+serverless: unavailable
+```
 
 :::::::{tab-set}
 

@@ -2,6 +2,12 @@
 mapped_pages:
   - https://www.elastic.co/guide/en/ecs-logging/go-zerolog/current/intro.html
   - https://www.elastic.co/guide/en/ecs-logging/go-zerolog/current/index.html
+applies_to:
+  stack: ga
+  serverless: ga
+products:
+  - id: ecs-logging
+  - id: elastic-stack
 ---
 
 # ECS Logging Go (Zerolog) [intro]
